@@ -17,6 +17,7 @@ import androidx.appcompat.content.res.AppCompatResources;
 
 import com.bumptech.glide.Glide;
 import com.example.gallery.R;
+import com.example.gallery.classes.Album;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -24,11 +25,11 @@ import java.util.List;
 
 public class ImageAdapter extends BaseAdapter {
 
-    private List<String> mFolders;
+    private List<Album> mFolders;
     private List<String> mThumbUris;
     private Context mContext;
 
-    public ImageAdapter(List <String> mFolders, List <String> mThumbUris, Context mContext) {
+    public ImageAdapter(List <Album> mFolders, List <String> mThumbUris, Context mContext) {
         this.mFolders = mFolders;
         this.mThumbUris = mThumbUris;
         this.mContext = mContext;
@@ -40,7 +41,7 @@ public class ImageAdapter extends BaseAdapter {
     }
 
     @Override
-    public String getItem(int position) {
+    public Album getItem(int position) {
         return mFolders.get(position);
     }
 
@@ -58,7 +59,7 @@ public class ImageAdapter extends BaseAdapter {
 
         TextView tvAlbum = (TextView) v.findViewById(R.id.tvAlbum);
 
-        String folderPath = mFolders.get(position);
+        Album album = mFolders.get(position);
         String mThumbUri = "";
 
 
@@ -72,7 +73,7 @@ public class ImageAdapter extends BaseAdapter {
                 path += splitPath[i] + "/";
             }
 
-            if(path.equalsIgnoreCase(folderPath)) {
+            if(path.equalsIgnoreCase(album.getAlbumUri())) {
                 mThumbUri = thumbUri;
                 break;
             }

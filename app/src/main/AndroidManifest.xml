@@ -16,7 +16,7 @@
         android:theme="@style/Theme.Gallery">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.AlbumsActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,10 +25,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".FotosActivity"
+            android:name=".activities.PhotosFromAlbumActivity"
             android:exported="true" />
         <activity
-            android:name=".FullView"
+            android:name=".activities.FullPhotoActivity"
             android:exported="true" />
     </application>
 

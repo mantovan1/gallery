@@ -1,4 +1,4 @@
-package com.example.gallery;
+package com.example.gallery.helper;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -8,12 +8,14 @@ import android.provider.MediaStore;
 
 import androidx.annotation.RequiresApi;
 
+import com.example.gallery.classes.Album;
+
 import java.io.File;
 import java.util.ArrayList;
 
-public class ImagesGallery {
+public class ImagesExtractor {
 
-    private static ArrayList <String> mFolders = new ArrayList<>();
+    private static ArrayList <Album> mFolders = new ArrayList<>();
 
     public static ArrayList <String> listOfImages(Context context) {
 
@@ -38,7 +40,11 @@ public class ImagesGallery {
 
             do {
 
+                int numberOfFiles = 0;
+
                 absolutePathOfImage = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
+
+                Uri path_uri = Uri.parse(absolutePathOfImage);
 
                 String splitPath[] = absolutePathOfImage.split("/");
 
@@ -50,14 +56,25 @@ public class ImagesGallery {
 
                 boolean isInMFolders = false;
 
-                for ( String folderPath : mFolders ) {
-                    if (folderPath.equalsIgnoreCase(path)) {
+                for ( Album folder : mFolders ) {
+                    if (folder.getAlbumUri().equalsIgnoreCase(path)) {
                         isInMFolders = true;
                     }
                 }
 
+                Uri name = Uri.parse(path);
+
                 if(isInMFolders == false) {
-                    mFolders.add(path);
+
+                    Album album = new Album(
+                            path_uri.getLastPathSegment(),
+                            path,
+                            name.getLastPathSegment(),
+                            2
+
+                    );
+
+                    mFolders.add(album);
                 }
 
                 listOfAllImages.add(absolutePathOfImage);
@@ -75,7 +92,7 @@ public class ImagesGallery {
 
     }
 
-    public static ArrayList <String> listOfFolders() {
+    public static ArrayList <Album> listOfFolders() {
 
         return mFolders;
     }
